@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class PostService {
   private posts: Post[] = [];
   private postsUpdated = new Subject<Post[]>();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private route: Router) {}
 
   getPosts() {
     this.http
@@ -48,7 +48,10 @@ export class PostService {
   updatePost(id: string, title: string, content: string) {
     const post: Post = { id: id, title: title, content: content };
     this.http.put('http://localhost:3000/api/posts/' + id, post)
-    .subscribe(response => console.log(response));
+    .subscribe(response => {
+      console.log('Post updated!');
+      this.route.navigate(['/']);
+    });
   }
 
   addPost(title: string, content: string) {
@@ -57,6 +60,7 @@ export class PostService {
       post.id = result.postId;
       this.posts.push(post);
       this.postsUpdated.next([...this.posts]);
+      this.route.navigate(['/']);
     });
   }
 }

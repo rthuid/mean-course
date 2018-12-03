@@ -8,3 +8,6 @@
 mat-spinner{
   margin: auto;
 }
+.post-image img{
+  max-width: 100%;
+}

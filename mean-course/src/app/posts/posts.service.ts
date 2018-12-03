@@ -43,12 +43,22 @@ export class PostService {
   }
 
   getPost(postId: string) {
-    return this.http.get<{_id: string, title: string, content: string}>('http://localhost:3000/api/posts/' + postId);
+    return this.http.get<{_id: string, title: string, content: string, imagePath: string}>('http://localhost:3000/api/posts/' + postId);
   }
 
-  updatePost(id: string, title: string, content: string) {
-    const post: Post = { id: id, title: title, content: content, imagePath: null };
-    this.http.put('http://localhost:3000/api/posts/' + id, post)
+  updatePost(id: string, title: string, content: string, image: File | string) {
+    let postData: Post | FormData;
+    if (typeof(image) === 'object') {
+      postData = new FormData();
+      postData.append('id', id);
+      postData.append('title', title);
+      postData.append('content', content);
+      postData.append('image', image, image.name);
+    } else {
+      postData = { id: id, title: title, content: content, imagePath: image }
+    }
+    // const post: Post = { id: id, title: title, content: content, imagePath: null };
+    this.http.put('http://localhost:3000/api/posts/' + id, postData)
     .subscribe(response => {
       console.log('Post updated!');
       this.route.navigate(['/']);

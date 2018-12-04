@@ -11,3 +11,6 @@ mat-spinner{
 .post-image img{
   max-width: 100%;
 }
+.mat-paginator{
+  margin-top: 15px;
+}

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const postRouts = require('./routes/posts');
+const userRouts = require('./routes/user');
 
 const app = express();
 mongoose.connect('mongodb://localhost:27017/node-angular', { useNewUrlParser: true })
@@ -30,5 +31,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/posts", postRouts);
+app.use("/api/user", userRouts);
 
 module.exports = app;
